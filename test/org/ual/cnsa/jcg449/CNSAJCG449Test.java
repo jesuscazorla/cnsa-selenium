@@ -36,13 +36,13 @@ public class CNSAJCG449Test {
 	@Before
 	public void setUp() {
 	    // Browser selector
-	    int browser= 1; // 0: firefox, 1: chrome,...
+	    int browser= 0; // 0: firefox, 1: chrome,...
 	    Boolean headless = true;
 
 	    switch (browser) {
 	    case 0:  // firefox
 	    	
-	    	System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
+	    	//System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
 	    	FirefoxOptions firefoxOptions = new FirefoxOptions();
 	    	if (headless) firefoxOptions.setHeadless(headless);
 	    	driver = new FirefoxDriver(firefoxOptions);
