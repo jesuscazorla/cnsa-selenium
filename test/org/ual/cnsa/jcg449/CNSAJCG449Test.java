@@ -78,7 +78,7 @@ public class CNSAJCG449Test {
 		// Test name: Registro
 		// Step # | name | target | value
 		// 1 | open | http://localhost:1337/ |
-		driver.get("http://localhost:1337/");
+		driver.get("http://webapps.jcg449.tech.:8085");
 		// 2 | setWindowSize | 1920x1044 |
 		driver.manage().window().setSize(new Dimension(1920, 1044));
 		// 3 | click | linkText=Sign up |
@@ -118,7 +118,7 @@ public class CNSAJCG449Test {
 		// Test name: Cambiar pass correcto
 		// Step # | name | target | value
 		// 1 | open | http://localhost:1337/ |
-		driver.get("http://localhost:1337/");
+		driver.get("http://webapps.jcg449.tech.:8085");
 		// 2 | setWindowSize | 1440x774 |
 		driver.manage().window().setSize(new Dimension(1440, 774));
 		// 3 | click | linkText=Log in |
@@ -161,7 +161,7 @@ public class CNSAJCG449Test {
 		// Test name: Cambiar pass incorrecto
 		// Step # | name | target | value
 		// 1 | open | http://localhost:1337/ |
-		driver.get("http://localhost:1337/");
+		driver.get("http://webapps.jcg449.tech.:8085");
 		// 2 | setWindowSize | 1440x774 |
 		driver.manage().window().setSize(new Dimension(1440, 774));
 		// 3 | click | linkText=Log in |
@@ -199,7 +199,7 @@ public class CNSAJCG449Test {
 		// Test name: Editar perfil
 		// Step # | name | target | value
 		// 1 | open | http://localhost:1337/ |
-		driver.get("http://localhost:1337/");
+		driver.get("http://webapps.jcg449.tech.:8085");
 		// 2 | setWindowSize | 1440x774 |
 		driver.manage().window().setSize(new Dimension(1440, 774));
 		// 3 | click | linkText=Log in |
@@ -233,7 +233,7 @@ public class CNSAJCG449Test {
 		// Test name: Editar perfil incorrecto
 		// Step # | name | target | value
 		// 1 | open | http://localhost:1337/ |
-		driver.get("http://localhost:1337/");
+		driver.get("http://webapps.jcg449.tech.:8085");
 		// 2 | setWindowSize | 1440x774 |
 		driver.manage().window().setSize(new Dimension(1440, 774));
 		// 3 | click | linkText=Log in |
@@ -268,7 +268,7 @@ public class CNSAJCG449Test {
 		// Test name: Registro incorrecto (input email vacio)
 		// Step # | name | target | value
 		// 1 | open | http://localhost:1337/ |
-		driver.get("http://localhost:1337/");
+		driver.get("http://webapps.jcg449.tech.:8085");
 		// 2 | setWindowSize | 1920x1044 |
 		driver.manage().window().setSize(new Dimension(1920, 1044));
 		// 3 | click | linkText=Sign up |
@@ -300,7 +300,7 @@ public class CNSAJCG449Test {
 		// Test name: Login credenciales incorrectas
 		// Step # | name | target | value
 		// 1 | open | http://localhost:1337/login |
-		driver.get("http://localhost:1337/login");
+		driver.get("http://webapps.jcg449.tech.:8085/login");
 		// 2 | setWindowSize | 1440x774 |
 		driver.manage().window().setSize(new Dimension(1440, 774));
 		// 3 | click | linkText=Log in |
@@ -339,7 +339,7 @@ public class CNSAJCG449Test {
 		// Test name: Login
 		// Step # | name | target | value
 		// 1 | open | http://localhost:1337/ |
-		driver.get("http://localhost:1337/");
+		driver.get("http://webapps.jcg449.tech.:8085");
 		// 2 | setWindowSize | 1440x774 |
 		driver.manage().window().setSize(new Dimension(1440, 774));
 		// 3 | click | linkText=Log in |
