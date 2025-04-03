@@ -53,7 +53,7 @@ public class CNSAJCG449Test {
 	    	//System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
 	    	ChromeOptions chromeOptions = new ChromeOptions();
 	    	if (headless) chromeOptions.setHeadless(headless);
-	    	chromeOptions.addArguments("window-size=1920,1080");
+	    	chromeOptions.addArguments("window-size=1920,1080", "--whitelisted-ips=0.0.0.0");
 	    	driver = new ChromeDriver(chromeOptions);
 
 	    	break;
