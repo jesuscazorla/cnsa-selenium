@@ -50,7 +50,7 @@ public class CNSAJCG449Test {
 	    	break;
 	    case 1: // chrome
 	   
-	    	System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
+	    	//System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
 	    	ChromeOptions chromeOptions = new ChromeOptions();
 	    	if (headless) chromeOptions.setHeadless(headless);
 	    	chromeOptions.addArguments("window-size=1920,1080");
