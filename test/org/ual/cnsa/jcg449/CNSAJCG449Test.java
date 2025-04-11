@@ -71,7 +71,7 @@ public class CNSAJCG449Test {
 		}
 	}
 
-	@Test
+		@Test
 	public void registro() {
 		// Test name: Registro
 		// Step # | name | target | value
@@ -133,11 +133,13 @@ public class CNSAJCG449Test {
 		driver.findElement(By.cssSelector(".ajax-button")).click();
 		// Espera hasta que el elemento sea visible
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[contains(text(),'Account')])[1]")));
+		WebElement accountLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Account')]")));
 
 		// Hacer clic en el primer enlace que contiene "Account"
 		accountLink.click();
-		if(browser == 0) accountLink.click();
+		if(browser == 0) {
+			accountLink.click();
+		}
 
 
 		WebDriverWait wait2 = new WebDriverWait(driver, 10);
@@ -184,16 +186,32 @@ public class CNSAJCG449Test {
 		driver.findElement(By.cssSelector(".ajax-button")).click();
 		// 8 | click | id=header-account-menu-link |
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[contains(text(),'Account')])[1]")));
+		WebElement accountLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Account')]")));
 
 		// Hacer clic en el primer enlace que contiene "Account"
 		accountLink.click();
-		if(browser == 0) accountLink.click();
-		// 11 | click | linkText=Settings |
+		   while (true) {
+		        try {
+		            accountLink.click(); // Intentar hacer clic
+		            break;  // Si el clic es exitoso, salir del bucle
+		        } catch (org.openqa.selenium.ElementNotInteractableException e) {
+		            System.out.println("Elemento no interactuable, reintentando...");
+		            try {
+						Thread.sleep(500);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}  // Espera pequeña para evitar agotar recursos rápidamente
+		            accountLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Account')]"))); 
+		        }
+		    }
+
+
 		WebDriverWait wait2 = new WebDriverWait(driver, 10);
 
 		WebElement settingsLink = wait2.until(ExpectedConditions.elementToBeClickable(By.linkText("Settings")));
 		settingsLink.click();
+
 		// 12 | click | linkText=Change password |
 		driver.findElement(By.linkText("Change password")).click();
 		// 13 | type | id=password | Aa123!
@@ -228,11 +246,13 @@ public class CNSAJCG449Test {
 		driver.findElement(By.cssSelector(".ajax-button")).click();
 		// 8 | click | id=header-account-menu-link |
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[contains(text(),'Account')])[1]")));
+		WebElement accountLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Account')]")));
 
 		// Hacer clic en el primer enlace que contiene "Account"
 		accountLink.click();
-		if(browser == 0) accountLink.click();
+		if(browser == 0) { 
+			accountLink.click();
+		}
 		// 11 | click | linkText=Settings |
 		WebDriverWait wait2 = new WebDriverWait(driver, 10);
 
@@ -268,11 +288,13 @@ public class CNSAJCG449Test {
 		driver.findElement(By.cssSelector(".ajax-button")).click();
 		// 8 | click | id=header-account-menu-link |
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[contains(text(),'Account')])[1]")));
+		WebElement accountLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Account')]")));
 
 		// Hacer clic en el primer enlace que contiene "Account"
 		accountLink.click();
-		if(browser == 0) accountLink.click();
+		if(browser == 0) {
+			accountLink.click();
+		}
 		// 11 | click | linkText=Settings |
 		WebDriverWait wait2 = new WebDriverWait(driver, 10);
 
