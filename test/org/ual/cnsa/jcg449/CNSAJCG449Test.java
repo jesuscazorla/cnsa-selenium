@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.After;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.core.IsNot.not;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -18,11 +18,13 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+
+import java.time.Duration;
 import java.util.*;
-import org.openqa.selenium.chrome.ChromeDriverService;
 
 
 
@@ -42,6 +44,9 @@ public class CNSAJCG449Test {
 	    	
 	    	//System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
 	    	FirefoxOptions firefoxOptions = new FirefoxOptions();
+	    	firefoxOptions.addPreference("webdriver.accept.untrusted.certs", true);
+	    	firefoxOptions.addPreference("webdriver.assume.untrusted.issuer", true);
+	    	firefoxOptions.addPreference("security.insecure_field_warning.contextual.enabled", false);
 	    	if (headless) firefoxOptions.setHeadless(headless);
 	    	driver = new FirefoxDriver(firefoxOptions);
 
@@ -71,7 +76,7 @@ public class CNSAJCG449Test {
 		}
 	}
 
-		@Test
+	@Test
 	public void registro() {
 		// Test name: Registro
 		// Step # | name | target | value
@@ -111,203 +116,6 @@ public class CNSAJCG449Test {
 		driver.findElement(By.cssSelector(".navbar-brand")).click();
 	}
 
-	@Test
-	public void cambiarpasscorrecto() throws InterruptedException {
-		// Test name: Cambiar pass correcto
-		// Step # | name | target | value
-		// 1 | open | http://webapps.jcg449.tech:8085/ |
-		driver.get("http://webapps.jcg449.tech:8085/");
-		// 2 | setWindowSize | 1440x774 |
-		driver.manage().window().setSize(new Dimension(1440, 774));
-		// 3 | click | linkText=Log in |
-		driver.findElement(By.linkText("Log in")).click();
-		// 4 | click | css=.form-group:nth-child(1) > .form-control |
-		driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control")).click();
-		// 5 | type | css=.form-group:nth-child(1) > .form-control |
-		// jcg449@inlumine.ual.es
-		driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control"))
-				.sendKeys("jcg449@inlumine.ual.es");
-		// 6 | type | css=.form-group:nth-child(2) > .form-control | Aa123!
-		driver.findElement(By.cssSelector(".form-group:nth-child(2) > .form-control")).sendKeys("Aa123!");
-		// 7 | click | css=.ajax-button |
-		driver.findElement(By.cssSelector(".ajax-button")).click();
-		// Espera hasta que el elemento sea visible
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		WebElement accountLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Account')]")));
-
-		// Hacer clic en el primer enlace que contiene "Account"
-		accountLink.click();
-		if(browser == 0) {
-			accountLink.click();
-		}
-
-
-		WebDriverWait wait2 = new WebDriverWait(driver, 10);
-
-		WebElement settingsLink = wait2.until(ExpectedConditions.elementToBeClickable(By.linkText("Settings")));
-		settingsLink.click();
-		// 12 | click | linkText=Change password |
-		driver.findElement(By.linkText("Change password")).click();
-		// 13 | type | id=password | Aa123!
-		driver.findElement(By.id("password")).sendKeys("Aa123!");
-		// 14 | type | id=confirm-password | Aa123!
-		driver.findElement(By.id("confirm-password")).sendKeys("Aa123!");
-		// 15 | click | css=.button-text |
-		driver.findElement(By.cssSelector(".button-text")).click();
-		// 16 | assertText | css=h1 | My account
-        try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		assertThat(driver.findElement(By.cssSelector("h1")).getText(), is("My account"));
-	}
-
-	@Test
-	public void cambiarpassincorrecto() {
-		// Test name: Cambiar pass incorrecto
-		// Step # | name | target | value
-		// 1 | open | http://webapps.jcg449.tech:8085/ |
-		driver.get("http://webapps.jcg449.tech:8085/");
-		// 2 | setWindowSize | 1440x774 |
-		driver.manage().window().setSize(new Dimension(1440, 774));
-		// 3 | click | linkText=Log in |
-		driver.findElement(By.linkText("Log in")).click();
-		// 4 | click | css=.form-group:nth-child(1) > .form-control |
-		driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control")).click();
-		// 5 | type | css=.form-group:nth-child(1) > .form-control |
-		// jcg449@inlumine.ual.es
-		driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control"))
-				.sendKeys("jcg449@inlumine.ual.es");
-		// 6 | type | css=.form-group:nth-child(2) > .form-control | Aa123!
-		driver.findElement(By.cssSelector(".form-group:nth-child(2) > .form-control")).sendKeys("Aa123!");
-		// 7 | click | css=.ajax-button |
-		driver.findElement(By.cssSelector(".ajax-button")).click();
-		// 8 | click | id=header-account-menu-link |
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		WebElement accountLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Account')]")));
-
-		// Hacer clic en el primer enlace que contiene "Account"
-		accountLink.click();
-		   while (true) {
-		        try {
-		            accountLink.click(); // Intentar hacer clic
-		            break;  // Si el clic es exitoso, salir del bucle
-		        } catch (org.openqa.selenium.ElementNotInteractableException e) {
-		            System.out.println("Elemento no interactuable, reintentando...");
-		            try {
-						Thread.sleep(500);
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}  // Espera pequeña para evitar agotar recursos rápidamente
-		            accountLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Account')]"))); 
-		        }
-		    }
-
-
-		WebDriverWait wait2 = new WebDriverWait(driver, 10);
-
-		WebElement settingsLink = wait2.until(ExpectedConditions.elementToBeClickable(By.linkText("Settings")));
-		settingsLink.click();
-
-		// 12 | click | linkText=Change password |
-		driver.findElement(By.linkText("Change password")).click();
-		// 13 | type | id=password | Aa123!
-		driver.findElement(By.id("password")).sendKeys("Aa123!");
-		// 14 | click | css=.button-text |
-		driver.findElement(By.cssSelector(".button-text")).click();
-		// 15 | assertText | css=.invalid-feedback | Your new password and confirmation
-		// do not match.
-		assertThat(driver.findElement(By.cssSelector(".invalid-feedback")).getText(),
-				is("Your new password and confirmation do not match."));
-	}
-
-	@Test
-	public void editarperfil() {
-		// Test name: Editar perfil
-		// Step # | name | target | value
-		// 1 | open | http://webapps.jcg449.tech:8085/ |
-		driver.get("http://webapps.jcg449.tech:8085/");
-		// 2 | setWindowSize | 1440x774 |
-		driver.manage().window().setSize(new Dimension(1440, 774));
-		// 3 | click | linkText=Log in |
-		driver.findElement(By.linkText("Log in")).click();
-		// 4 | click | css=.form-group:nth-child(1) > .form-control |
-		driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control")).click();
-		// 5 | type | css=.form-group:nth-child(1) > .form-control |
-		// jcg449@inlumine.ual.es
-		driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control"))
-				.sendKeys("jcg449@inlumine.ual.es");
-		// 6 | type | css=.form-group:nth-child(2) > .form-control | Aa123!
-		driver.findElement(By.cssSelector(".form-group:nth-child(2) > .form-control")).sendKeys("Aa123!");
-		// 7 | click | css=.ajax-button |
-		driver.findElement(By.cssSelector(".ajax-button")).click();
-		// 8 | click | id=header-account-menu-link |
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		WebElement accountLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Account')]")));
-
-		// Hacer clic en el primer enlace que contiene "Account"
-		accountLink.click();
-		if(browser == 0) { 
-			accountLink.click();
-		}
-		// 11 | click | linkText=Settings |
-		WebDriverWait wait2 = new WebDriverWait(driver, 10);
-
-		WebElement settingsLink = wait2.until(ExpectedConditions.elementToBeClickable(By.linkText("Settings")));
-		settingsLink.click();
-		// 12 | click | linkText=Edit profile |
-		driver.findElement(By.linkText("Edit profile")).click();
-		// 13 | type | id=full-name | editado
-		driver.findElement(By.id("full-name")).sendKeys("editado");
-		// 14 | click | css=.button-text |
-		driver.findElement(By.cssSelector(".button-text")).click();
-	}
-
-	@Test
-	public void editarperfilincorrecto() {
-		// Test name: Editar perfil incorrecto
-		// Step # | name | target | value
-		// 1 | open | http://webapps.jcg449.tech:8085/ |
-		driver.get("http://webapps.jcg449.tech:8085/");
-		// 2 | setWindowSize | 1440x774 |
-		driver.manage().window().setSize(new Dimension(1440, 774));
-		// 3 | click | linkText=Log in |
-		driver.findElement(By.linkText("Log in")).click();
-		// 4 | click | css=.form-group:nth-child(1) > .form-control |
-		driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control")).click();
-		// 5 | type | css=.form-group:nth-child(1) > .form-control |
-		// jcg449@inlumine.ual.es
-		driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control"))
-				.sendKeys("jcg449@inlumine.ual.es");
-		// 6 | type | css=.form-group:nth-child(2) > .form-control | Aa123!
-		driver.findElement(By.cssSelector(".form-group:nth-child(2) > .form-control")).sendKeys("Aa123!");
-		// 7 | click | css=.ajax-button |
-		driver.findElement(By.cssSelector(".ajax-button")).click();
-		// 8 | click | id=header-account-menu-link |
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		WebElement accountLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Account')]")));
-
-		// Hacer clic en el primer enlace que contiene "Account"
-		accountLink.click();
-		if(browser == 0) {
-			accountLink.click();
-		}
-		// 11 | click | linkText=Settings |
-		WebDriverWait wait2 = new WebDriverWait(driver, 10);
-
-		WebElement settingsLink = wait2.until(ExpectedConditions.elementToBeClickable(By.linkText("Settings")));
-		settingsLink.click();
-		// 12 | click | linkText=Edit profile |
-		driver.findElement(By.linkText("Edit profile")).click();
-		// 13 | sendKeys | id=full-name |
-		// ${KEY_SHIFT}${KEY_HOME}${KEY_SHIFT}${KEY_DELETE}
-		driver.findElement(By.id("full-name")).sendKeys(Keys.SHIFT, Keys.HOME, Keys.SHIFT, Keys.DELETE);
-		// 14 | click | css=.button-text |
-		driver.findElement(By.cssSelector(".button-text")).click();
-	}
 
 	@Test
 	public void registroincorrectoinputemailvacio() {
@@ -379,6 +187,215 @@ public class CNSAJCG449Test {
 		assertThat(driver.findElement(By.cssSelector(".text-danger")).getText(), is(
 				"The credentials you entered are not associated with an account. Please check your email and/or password and try again."));
 	}
+	
+	@Test
+	public void cambiarpasscorrecto() throws InterruptedException {
+	    // Test name: Cambiar pass correcto
+	    // Step # | name | target | value
+	    // 1 | open | http://webapps.jcg449.tech:8085/ |
+	    driver.get("http://webapps.jcg449.tech:8085/");
+	    // 2 | setWindowSize | 1440x774 |
+	    driver.manage().window().setSize(new Dimension(1440, 774));
+	    // 3 | click | linkText=Log in |
+	    driver.findElement(By.linkText("Log in")).click();
+	    // 4 | click | css=.form-group:nth-child(1) > .form-control |
+	    driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control")).click();
+	    // 5 | type | css=.form-group:nth-child(1) > .form-control |
+	    // jcg449@inlumine.ual.es
+	    driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control"))
+	            .sendKeys("jcg449@inlumine.ual.es");
+	    // 6 | type | css=.form-group:nth-child(2) > .form-control | Aa123!
+	    driver.findElement(By.cssSelector(".form-group:nth-child(2) > .form-control")).sendKeys("Aa123!");
+	    // 7 | click | css=.ajax-button |
+	    driver.findElement(By.cssSelector(".ajax-button")).click();
+
+	    // Usar Actions para hacer clic en el menú desplegable
+	    WebDriverWait wait = new WebDriverWait(driver, 10);
+	    // Esperar a que el elemento esté presente y visible en el DOM
+	    WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("header-account-menu-link")));
+	    Actions actions = new Actions(driver);
+	    actions.moveToElement(accountLink).perform();  // Hover sobre el elemento
+	    try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+	    accountLink.click();  // Ahora hacer clic
+
+	    // Ahora puedes hacer clic en "Settings"
+	    WebElement settingsLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Settings')]")));
+	    settingsLink.click();
+
+	    // 12 | click | linkText=Change password |
+	    driver.findElement(By.linkText("Change password")).click();
+	    // 13 | type | id=password | Aa123!
+	    driver.findElement(By.id("password")).sendKeys("Aa123!");
+	    // 14 | type | id=confirm-password | Aa123!
+	    driver.findElement(By.id("confirm-password")).sendKeys("Aa123!");
+	    // 15 | click | css=.button-text |
+	    driver.findElement(By.cssSelector(".button-text")).click();
+	    // 16 | assertText | css=h1 | My account
+	    try {
+	        Thread.sleep(1000);
+	    } catch (InterruptedException e) {
+	        e.printStackTrace();
+	    }
+	    assertThat(driver.findElement(By.cssSelector("h1")).getText(), is("My account"));
+	}
+
+	@Test
+	public void cambiarpassincorrecto() {
+	    // Test name: Cambiar pass incorrecto
+	    // Step # | name | target | value
+	    // 1 | open | http://webapps.jcg449.tech:8085/ |
+	    driver.get("http://webapps.jcg449.tech:8085/");
+	    // 2 | setWindowSize | 1440x774 |
+	    driver.manage().window().setSize(new Dimension(1440, 774));
+	    // 3 | click | linkText=Log in |
+	    driver.findElement(By.linkText("Log in")).click();
+	    // 4 | click | css=.form-group:nth-child(1) > .form-control |
+	    driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control")).click();
+	    // 5 | type | css=.form-group:nth-child(1) > .form-control |
+	    // jcg449@inlumine.ual.es
+	    driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control"))
+	            .sendKeys("jcg449@inlumine.ual.es");
+	    // 6 | type | css=.form-group:nth-child(2) > .form-control | Aa123!
+	    driver.findElement(By.cssSelector(".form-group:nth-child(2) > .form-control")).sendKeys("Aa123!");
+	    // 7 | click | css=.ajax-button |
+	    driver.findElement(By.cssSelector(".ajax-button")).click();
+
+	    // Usar Actions para hacer clic en el menú desplegable
+	    WebDriverWait wait = new WebDriverWait(driver, 10);
+	    // Esperar a que el elemento esté presente y visible en el DOM
+	    WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("header-account-menu-link")));
+	    Actions actions = new Actions(driver);
+	    actions.moveToElement(accountLink).perform();  // Hover sobre el elemento
+	    try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+	    accountLink.click();  // Ahora hacer clic
+
+	    // Ahora puedes hacer clic en "Settings"
+	    WebElement settingsLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Settings')]")));
+	    settingsLink.click();
+
+	    // 12 | click | linkText=Change password |
+	    driver.findElement(By.linkText("Change password")).click();
+	    // 13 | type | id=password | Aa123!
+	    driver.findElement(By.id("password")).sendKeys("Aa123!");
+	    // 14 | click | css=.button-text |
+	    driver.findElement(By.cssSelector(".button-text")).click();
+	    // 15 | assertText | css=.invalid-feedback | Your new password and confirmation
+	    // do not match.
+	    assertThat(driver.findElement(By.cssSelector(".invalid-feedback")).getText(),
+	            is("Your new password and confirmation do not match."));
+	}
+	
+	@Test
+	public void editarperfil() {
+	    // Test name: Editar perfil
+	    // Step # | name | target | value
+	    // 1 | open | http://webapps.jcg449.tech:8085/ |
+	    driver.get("http://webapps.jcg449.tech:8085/");
+	    // 2 | setWindowSize | 1440x774 |
+	    driver.manage().window().setSize(new Dimension(1440, 774));
+	    // 3 | click | linkText=Log in |
+	    driver.findElement(By.linkText("Log in")).click();
+	    // 4 | click | css=.form-group:nth-child(1) > .form-control |
+	    driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control")).click();
+	    // 5 | type | css=.form-group:nth-child(1) > .form-control |
+	    // jcg449@inlumine.ual.es
+	    driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control"))
+	            .sendKeys("jcg449@inlumine.ual.es");
+	    // 6 | type | css=.form-group:nth-child(2) > .form-control | Aa123!
+	    driver.findElement(By.cssSelector(".form-group:nth-child(2) > .form-control")).sendKeys("Aa123!");
+	    // 7 | click | css=.ajax-button |
+	    driver.findElement(By.cssSelector(".ajax-button")).click();
+
+	
+	    WebDriverWait wait = new WebDriverWait(driver, 10);
+	    // Esperar a que el elemento esté presente y visible en el DOM
+	    WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("header-account-menu-link")));
+	    Actions actions = new Actions(driver);
+	    actions.moveToElement(accountLink).perform();  // Hover sobre el elemento
+	    try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+	    accountLink.click();  // Ahora hacer clic
+
+	    // Ahora puedes hacer clic en "Settings"
+	    WebElement settingsLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Settings')]")));
+	    settingsLink.click();
+
+	    // 12 | click | linkText=Edit profile |
+	    driver.findElement(By.linkText("Edit profile")).click();
+	    // 13 | type | id=full-name | editado
+	    driver.findElement(By.id("full-name")).sendKeys("editado");
+	    // 14 | click | css=.button-text |
+	    driver.findElement(By.cssSelector(".button-text")).click();
+	}
+
+	@Test
+	public void editarperfilincorrecto() {
+	    // Test name: Editar perfil incorrecto
+	    // Step # | name | target | value
+	    // 1 | open | http://webapps.jcg449.tech:8085/ |
+	    driver.get("http://webapps.jcg449.tech:8085/");
+	    // 2 | setWindowSize | 1440x774 |
+	    driver.manage().window().setSize(new Dimension(1440, 774));
+	    // 3 | click | linkText=Log in |
+	    driver.findElement(By.linkText("Log in")).click();
+	    // 4 | click | css=.form-group:nth-child(1) > .form-control |
+	    driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control")).click();
+	    // 5 | type | css=.form-group:nth-child(1) > .form-control |
+	    // jcg449@inlumine.ual.es
+	    driver.findElement(By.cssSelector(".form-group:nth-child(1) > .form-control"))
+	            .sendKeys("jcg449@inlumine.ual.es");
+	    // 6 | type | css=.form-group:nth-child(2) > .form-control | Aa123!
+	    driver.findElement(By.cssSelector(".form-group:nth-child(2) > .form-control")).sendKeys("Aa123!");
+	    // 7 | click | css=.ajax-button |
+	    driver.findElement(By.cssSelector(".ajax-button")).click();
+	    // Crear la espera explícita
+	    WebDriverWait wait = new WebDriverWait(driver, 10);
+	    // Esperar a que el elemento esté presente y visible en el DOM
+	    WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("header-account-menu-link")));
+	    Actions actions = new Actions(driver);
+	    actions.moveToElement(accountLink).perform();  // Hover sobre el elemento
+	    try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+	    accountLink.click();  // Ahora hacer clic
+
+
+	  
+	    // Ahora puedes hacer clic en "Settings"
+	    WebElement settingsLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Settings')]")));
+	    settingsLink.click();
+
+	    // 12 | click | linkText=Edit profile |
+	    driver.findElement(By.linkText("Edit profile")).click();
+	    // 13 | sendKeys | id=full-name |
+	    // ${KEY_SHIFT}${KEY_HOME}${KEY_SHIFT}${KEY_DELETE}
+	    driver.findElement(By.id("full-name")).sendKeys(Keys.SHIFT, Keys.HOME, Keys.SHIFT, Keys.DELETE);
+	    // 14 | click | css=.button-text |
+	    driver.findElement(By.cssSelector(".button-text")).click();
+	}
+
+
 
 	@Test
 	public void login() {
