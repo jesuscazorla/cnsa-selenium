@@ -13,36 +13,34 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
+
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
 import java.util.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.Duration;
+import org.openqa.selenium.chrome.ChromeDriverService;
+
+
 
 public class CNSAJCG449Test {
 	private WebDriver driver;
 	private Map<String, Object> vars;
 	JavascriptExecutor js;
+    int browser= 0; // 0: firefox, 1: chrome,...
 
 	@Before
 	public void setUp() {
 	    // Browser selector
-	    int browser= 1; // 0: firefox, 1: chrome,...
 	    Boolean headless = true;
 
 	    switch (browser) {
 	    case 0:  // firefox
 	    	
-	    	//System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
+	    	System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
 	    	FirefoxOptions firefoxOptions = new FirefoxOptions();
 	    	if (headless) firefoxOptions.setHeadless(headless);
 	    	driver = new FirefoxDriver(firefoxOptions);
@@ -50,10 +48,10 @@ public class CNSAJCG449Test {
 	    	break;
 	    case 1: // chrome
 	   
-	    	//System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
+	    	System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
 	    	ChromeOptions chromeOptions = new ChromeOptions();
 	    	if (headless) chromeOptions.setHeadless(headless);
-
+			
 	    	driver = new ChromeDriver(chromeOptions);
 
 	    	break;
@@ -77,8 +75,8 @@ public class CNSAJCG449Test {
 	public void registro() {
 		// Test name: Registro
 		// Step # | name | target | value
-		// 1 | open | http://localhost:1337/ |
-		driver.get("http://webapps.jcg449.tech.:8085");
+		// 1 | open | http://webapps.jcg449.tech:8085/ |
+		driver.get("http://webapps.jcg449.tech:8085/");
 		// 2 | setWindowSize | 1920x1044 |
 		driver.manage().window().setSize(new Dimension(1920, 1044));
 		// 3 | click | linkText=Sign up |
@@ -114,11 +112,11 @@ public class CNSAJCG449Test {
 	}
 
 	@Test
-	public void cambiarpasscorrecto() {
+	public void cambiarpasscorrecto() throws InterruptedException {
 		// Test name: Cambiar pass correcto
 		// Step # | name | target | value
-		// 1 | open | http://localhost:1337/ |
-		driver.get("http://webapps.jcg449.tech.:8085");
+		// 1 | open | http://webapps.jcg449.tech:8085/ |
+		driver.get("http://webapps.jcg449.tech:8085/");
 		// 2 | setWindowSize | 1440x774 |
 		driver.manage().window().setSize(new Dimension(1440, 774));
 		// 3 | click | linkText=Log in |
@@ -133,11 +131,19 @@ public class CNSAJCG449Test {
 		driver.findElement(By.cssSelector(".form-group:nth-child(2) > .form-control")).sendKeys("Aa123!");
 		// 7 | click | css=.ajax-button |
 		driver.findElement(By.cssSelector(".ajax-button")).click();
+		// Espera hasta que el elemento sea visible
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Account')]")));
+		WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[contains(text(),'Account')])[1]")));
+
+		// Hacer clic en el primer enlace que contiene "Account"
 		accountLink.click();
-		// 11 | click | linkText=Settings |
-		driver.findElement(By.linkText("Settings")).click();
+		if(browser == 0) accountLink.click();
+
+
+		WebDriverWait wait2 = new WebDriverWait(driver, 10);
+
+		WebElement settingsLink = wait2.until(ExpectedConditions.elementToBeClickable(By.linkText("Settings")));
+		settingsLink.click();
 		// 12 | click | linkText=Change password |
 		driver.findElement(By.linkText("Change password")).click();
 		// 13 | type | id=password | Aa123!
@@ -160,8 +166,8 @@ public class CNSAJCG449Test {
 	public void cambiarpassincorrecto() {
 		// Test name: Cambiar pass incorrecto
 		// Step # | name | target | value
-		// 1 | open | http://localhost:1337/ |
-		driver.get("http://webapps.jcg449.tech.:8085");
+		// 1 | open | http://webapps.jcg449.tech:8085/ |
+		driver.get("http://webapps.jcg449.tech:8085/");
 		// 2 | setWindowSize | 1440x774 |
 		driver.manage().window().setSize(new Dimension(1440, 774));
 		// 3 | click | linkText=Log in |
@@ -178,10 +184,16 @@ public class CNSAJCG449Test {
 		driver.findElement(By.cssSelector(".ajax-button")).click();
 		// 8 | click | id=header-account-menu-link |
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Account')]")));
+		WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[contains(text(),'Account')])[1]")));
+
+		// Hacer clic en el primer enlace que contiene "Account"
 		accountLink.click();
+		if(browser == 0) accountLink.click();
 		// 11 | click | linkText=Settings |
-		driver.findElement(By.linkText("Settings")).click();
+		WebDriverWait wait2 = new WebDriverWait(driver, 10);
+
+		WebElement settingsLink = wait2.until(ExpectedConditions.elementToBeClickable(By.linkText("Settings")));
+		settingsLink.click();
 		// 12 | click | linkText=Change password |
 		driver.findElement(By.linkText("Change password")).click();
 		// 13 | type | id=password | Aa123!
@@ -198,8 +210,8 @@ public class CNSAJCG449Test {
 	public void editarperfil() {
 		// Test name: Editar perfil
 		// Step # | name | target | value
-		// 1 | open | http://localhost:1337/ |
-		driver.get("http://webapps.jcg449.tech.:8085");
+		// 1 | open | http://webapps.jcg449.tech:8085/ |
+		driver.get("http://webapps.jcg449.tech:8085/");
 		// 2 | setWindowSize | 1440x774 |
 		driver.manage().window().setSize(new Dimension(1440, 774));
 		// 3 | click | linkText=Log in |
@@ -216,10 +228,16 @@ public class CNSAJCG449Test {
 		driver.findElement(By.cssSelector(".ajax-button")).click();
 		// 8 | click | id=header-account-menu-link |
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Account')]")));
+		WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[contains(text(),'Account')])[1]")));
+
+		// Hacer clic en el primer enlace que contiene "Account"
 		accountLink.click();
+		if(browser == 0) accountLink.click();
 		// 11 | click | linkText=Settings |
-		driver.findElement(By.linkText("Settings")).click();
+		WebDriverWait wait2 = new WebDriverWait(driver, 10);
+
+		WebElement settingsLink = wait2.until(ExpectedConditions.elementToBeClickable(By.linkText("Settings")));
+		settingsLink.click();
 		// 12 | click | linkText=Edit profile |
 		driver.findElement(By.linkText("Edit profile")).click();
 		// 13 | type | id=full-name | editado
@@ -232,8 +250,8 @@ public class CNSAJCG449Test {
 	public void editarperfilincorrecto() {
 		// Test name: Editar perfil incorrecto
 		// Step # | name | target | value
-		// 1 | open | http://localhost:1337/ |
-		driver.get("http://webapps.jcg449.tech.:8085");
+		// 1 | open | http://webapps.jcg449.tech:8085/ |
+		driver.get("http://webapps.jcg449.tech:8085/");
 		// 2 | setWindowSize | 1440x774 |
 		driver.manage().window().setSize(new Dimension(1440, 774));
 		// 3 | click | linkText=Log in |
@@ -250,10 +268,16 @@ public class CNSAJCG449Test {
 		driver.findElement(By.cssSelector(".ajax-button")).click();
 		// 8 | click | id=header-account-menu-link |
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Account')]")));
+		WebElement accountLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[contains(text(),'Account')])[1]")));
+
+		// Hacer clic en el primer enlace que contiene "Account"
 		accountLink.click();
+		if(browser == 0) accountLink.click();
 		// 11 | click | linkText=Settings |
-		driver.findElement(By.linkText("Settings")).click();
+		WebDriverWait wait2 = new WebDriverWait(driver, 10);
+
+		WebElement settingsLink = wait2.until(ExpectedConditions.elementToBeClickable(By.linkText("Settings")));
+		settingsLink.click();
 		// 12 | click | linkText=Edit profile |
 		driver.findElement(By.linkText("Edit profile")).click();
 		// 13 | sendKeys | id=full-name |
@@ -267,8 +291,8 @@ public class CNSAJCG449Test {
 	public void registroincorrectoinputemailvacio() {
 		// Test name: Registro incorrecto (input email vacio)
 		// Step # | name | target | value
-		// 1 | open | http://localhost:1337/ |
-		driver.get("http://webapps.jcg449.tech.:8085");
+		// 1 | open | http://webapps.jcg449.tech:8085/ |
+		driver.get("http://webapps.jcg449.tech:8085/");
 		// 2 | setWindowSize | 1920x1044 |
 		driver.manage().window().setSize(new Dimension(1920, 1044));
 		// 3 | click | linkText=Sign up |
@@ -299,8 +323,8 @@ public class CNSAJCG449Test {
 	public void logincredencialesincorrectas() {
 		// Test name: Login credenciales incorrectas
 		// Step # | name | target | value
-		// 1 | open | http://localhost:1337/login |
-		driver.get("http://webapps.jcg449.tech.:8085/login");
+		// 1 | open | http://webapps.jcg449.tech:8085/login |
+		driver.get("http://webapps.jcg449.tech:8085/login");
 		// 2 | setWindowSize | 1440x774 |
 		driver.manage().window().setSize(new Dimension(1440, 774));
 		// 3 | click | linkText=Log in |
@@ -338,8 +362,8 @@ public class CNSAJCG449Test {
 	public void login() {
 		// Test name: Login
 		// Step # | name | target | value
-		// 1 | open | http://localhost:1337/ |
-		driver.get("http://webapps.jcg449.tech.:8085");
+		// 1 | open | http://webapps.jcg449.tech:8085/ |
+		driver.get("http://webapps.jcg449.tech:8085/");
 		// 2 | setWindowSize | 1440x774 |
 		driver.manage().window().setSize(new Dimension(1440, 774));
 		// 3 | click | linkText=Log in |
